@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>סיפור הצמיחה של בינתה - מפת דרכים</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- D3.js for Interactive Network Graph -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Heebo', sans-serif;
+            background-color: #f8fafc;
+        }
+
+        .gradient-text {
+            background: linear-gradient(to left, #2563eb, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* CSS for the Drill-Down Tree to hide default arrows */
+        details>summary {
+            list-style: none;
+        }
+
+        details>summary::-webkit-details-marker {
+            display: none;
+        }
+
+        /* D3 Interactive Graph Tooltip CSS */
+        .d3-tooltip {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid #e2e8f0;
+            padding: 12px 16px;
+            border-radius: 12px;
+            pointer-events: none;
+            font-size: 14px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            z-index: 50;
+            max-width: 250px;
+            font-family: 'Heebo', sans-serif;
+            text-align: right;
+            direction: rtl;
+        }
+    </style>
+</head>
+
+<body class="text-slate-800 antialiased">
+
+    <!-- Header Section -->
+    <header class="bg-white shadow-sm border-b border-slate-200 pt-16 pb-12 text-center">
+        <div class="max-w-4xl mx-auto px-4">
+            <p class="text-sm md:text-base font-bold tracking-widest text-slate-400 uppercase mb-3" dir="ltr">
+                AI Institute exclusively for Kollel wives
+            </p>
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4">
+                הסיפור של <span class="gradient-text">בינתה</span>
+            </h1>
+            <p class="text-2xl md:text-3xl font-bold text-slate-700 mb-6">
+                המעבדה הלאומית לבינה מלאכותית
+            </p>
+            <div class="flex flex-wrap justify-center gap-4 text-sm font-medium text-slate-500">
+                <!-- <span
+                    class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full border border-blue-100">#הסברה_טכנולוגית</span>
+                <span class="bg-pink-50 text-pink-700 px-3 py-1 rounded-full border border-pink-100">#העצמת_נשים</span>
+                <span
+                    class="bg-yellow-50 text-yellow-700 px-3 py-1 rounded-full border border-yellow-200">#בינה_מלאכותית</span> -->
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-12">
+
+        <!-- 3 Pillars Section -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold mb-8 text-center text-slate-800">3 עמודי התווך של המיזם</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Pillar 1 -->
+                <div
+                    class="bg-blue-50 rounded-2xl p-6 border border-blue-100 flex flex-col items-center text-center hover:shadow-md transition card-hover">
+                    <div class="bg-blue-500 text-white p-4 rounded-full mb-4 shadow-sm">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-blue-800 mb-2">בית תוכנה (תכנות)</h3>
+                    <p class="text-slate-600 text-sm">פיתוח פתרונות טכנולוגיים מתקדמים: תשתית סוכני AI לניהול (AMAS),
+                        בוטים להסברה (PROPABOTS), ומערכות למידה (LMS). <strong class="text-blue-700">המטרה הסופית: פיתוח
+                            מודלי AI משלנו מאפס.</strong></p>
+                </div>
+                <!-- Pillar 2 -->
+                <div
+                    class="bg-pink-50 rounded-2xl p-6 border border-pink-100 flex flex-col items-center text-center hover:shadow-md transition card-hover">
+                    <div class="bg-pink-500 text-white p-4 rounded-full mb-4 shadow-sm">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 14l9-5-9-5-9 5 9 5z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-pink-800 mb-2">אקדמיה והכשרה</h3>
+                    <p class="text-slate-600 text-sm">הכשרת טאלנטיות למקצועות הפיתוח ושילובן המיידי בפרויקטים המעשיים,
+                        תוך שמירה על הצניעות ופתיחת דלתות לחסרות רקע.</p>
+                </div>
+                <!-- Pillar 3 -->
+                <div
+                    class="bg-yellow-50 rounded-2xl p-6 border border-yellow-200 flex flex-col items-center text-center hover:shadow-md transition card-hover">
+                    <div class="bg-yellow-500 text-white p-4 rounded-full mb-4 shadow-sm">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-yellow-800 mb-2">מיתוג ויחסי ציבור</h3>
+                    <p class="text-slate-600 text-sm">בניית מותג חזק, פרסום יכולת הפיתוח, האקדמיה ויצירת חיבורים
+                        אסטרטגיים מול ממשלות, צבאות וגופי תקשורת.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Graph Section -->
+        <section class="mb-16 bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100">
+            <h2 class="text-2xl font-bold mb-6 text-slate-800 border-r-4 border-blue-600 pr-3">גרף צמיחת כוח האדם (חודש
+                0 עד 18)</h2>
+            <div class="relative h-[300px] w-full">
+                <canvas id="growthChart"></canvas>
+            </div>
+            <div class="mt-4 text-center text-slate-500 text-sm">
+                *הגרף מציג את מספר העובדות הכולל, תוצר הסינרגיה בין האקדמיה המכשירה לבית התוכנה הקולט.
+            </div>
+        </section>
+
+        <!-- Interactive Combined Timeline Section -->
+        <section class="mb-16 bg-white p-6 md:p-10 rounded-2xl shadow-sm border border-slate-100">
+            <h2 class="text-3xl font-bold mb-2 text-center text-slate-800">המסע וההתפתחות שלנו</h2>
+            <p class="text-center text-slate-500 mb-10 text-lg">
+                <span class="font-semibold text-blue-600">לחיצה פעם אחת</span> מציגה את השלב בציר הזמן, <span
+                    class="font-semibold text-blue-600">ולחיצה נוספת</span> תפתח את הסיפור מנקודת המבט של 3 הפילרים.
+            </p>
+
+            <!-- OVERARCHING MANAGEMENT SECTION -->
+            <div class="max-w-4xl mx-auto mb-12 relative">
+                <div
+                    class="bg-slate-800 text-white p-6 rounded-2xl shadow-lg text-center relative z-10 border border-slate-700">
+                    <div class="flex items-center justify-center gap-3 mb-4">
+                        <div class="bg-slate-700 p-2 rounded-xl text-blue-400">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+                                </path>
+                            </svg>
+                        </div>
+                        <h3 class="font-extrabold text-xl md:text-2xl">חטיבת הנהלה, כספים ומשאבי אנוש <span
+                                class="text-slate-400 font-normal text-lg">(אחריות מקיפה 0-18 חודשים)</span></h3>
+                    </div>
+                    <ul class="text-sm md:text-base text-slate-200 max-w-3xl mx-auto text-right space-y-3">
+                        <li class="flex items-start"><span
+                                class="text-blue-400 ml-2 -mt-1 text-2xl font-black leading-none">•</span><span
+                                class="pt-0.5">ניהול אסטרטגי, משפטי ופיננסי רציף של צמיחת החברה מגרעין של 12 מפתחות ליעד
+                                של 152 עובדות.</span></li>
+                        <li class="flex items-start"><span
+                                class="text-blue-400 ml-2 -mt-1 text-2xl font-black leading-none">•</span><span
+                                class="pt-0.5">איתור, סינון וגיוס כוח אדם בהיקפים נרחבים בכל מחזור, קליטתן בארגון וניהול
+                                שוטף של רווחת העובדות.</span></li>
+                        <li class="flex items-start"><span
+                                class="text-blue-400 ml-2 -mt-1 text-2xl font-black leading-none">•</span><span
+                                class="pt-0.5">תכנון ובקרת תקציב, ניהול תזרים מזומנים, וניהול אופרטיבי ותפעולי של
+                                המשרדים בערים השונות לאורך חיי הפרויקט.</span></li>
+                    </ul>
+                </div>
+                <!-- Connector Arrow to Timeline -->
+                <div class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center z-0">
+                    <div class="w-1 h-8 bg-slate-300"></div>
+                    <svg class="w-6 h-6 text-slate-300 -mt-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd"
+                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="max-w-4xl mx-auto relative mt-8" id="interactive-timeline">
+                <!-- Vertical Line -->
+                <div class="absolute right-[20px] top-4 bottom-4 w-1 bg-slate-200 rounded-full"></div>
+
+                <div class="space-y-4">
+
+                    <!-- Month 0 -->
+                    <div class="relative pr-16 group">
+                        <div
+                            class="absolute right-0 top-3 w-11 h-11 rounded-full bg-white border-4 border-blue-500 flex items-center justify-center shadow-sm z-10 transition-transform duration-300 group-hover:scale-110">
+                            <span class="text-blue-500 font-bold text-sm">0</span>
+                        </div>
+                        <div
+                            class="bg-slate-50 rounded-xl border border-slate-200 overflow-hidden transition-all duration-300 hover:shadow-md hover:border-blue-300">
+                            <!-- Main Accordion Button -->
+                            <div class="p-4 flex justify-between items-center cursor-pointer"
+                                onclick="toggleTimeline('step-0')">
+                                <h3 class="text-lg md:text-xl font-bold text-slate-800">חודשים 2 - 0 <span
+                                        class="text-blue-600 font-normal text-md md:text-lg mr-2">- קו הזינוק</span>
+                                </h3>
+                                <svg id="icon-step-0"
+                                    class="w-6 h-6 text-blue-500 transform transition-transform duration-300"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                            <!-- General Content -->
+                            <div id="content-step-0" class="px-4 pb-4 hidden opacity-0 transition-opacity duration-300">
+                                <p class="text-slate-600 mb-4">
+                                    גיוס 12 מפתחות ליבה למערך התחלתי של 2 משרדים בשתי ערים ראשונות. תחילת פיתוח
+                                    הפרויקטים המרכזיים: AMAS, PROPABOTS, GUARD ומערכת ה-LMS. במקביל מתחיל תכנון מערכי
+                                    האקדמיה ומהלכי יח"צ מול ממשלות.
+                                </p>
+                                <!-- Pillars Button -->
+                                <button id="btn-pillars-step-0" onclick="togglePillars('step-0', event)"
+                                    class="bg-white border border-blue-200 text-blue-700 hover:bg-blue-50 px-4 py-2 rounded-lg text-sm font-bold transition-colors inline-flex items-center gap-2 shadow-sm">
+                                    נקודת המבט של 3 הפילרים <span>▼</span>
+                                </button>
+                                <!-- Pillars Expanded Content -->
+                                <div id="pillars-step-0"
+                                    class="hidden opacity-0 transition-opacity duration-300 mt-4 border-t border-slate-200 pt-4">
+
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                        <div class="bg-blue-50/70 p-4 rounded-xl border border-blue-100">
+                                            <h4 class="font-bold text-blue-800 flex items-center gap-2 mb-2"><span
+                                                    class="text-xl">💻</span>בית תוכנה (תכנות)</h4>
+                                            <ul class="space-y-2 mt-1 text-sm text-slate-700">
+                                                <li class="flex items-start"><span
+                                                        class="text-blue-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">גיבוש סיירת עלית של 12 מפתחות ב-2 משרדים בשתי ערים
+                                                        ראשונות.</span></li>
+                                                <li class="flex items-start"><span
+                                                        class="text-blue-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">כתיבת שורות הקוד הראשונות של פלטפורמות
+                                                        הליבה.</span></li>
+                                                <li class="flex items-start"><span
+                                                        class="text-blue-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">פיתוח בוטים להסברה ומערכת GUARD.</span></li>
+                                                <li class="flex items-start"><span
+                                                        class="text-blue-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">הקמת ה-LMS ותשתית סוכני ה-AI הארגונית
+                                                        (AMAS).</span></li>
+                                            </ul>
+                                        </div>
+                                        <div class="bg-pink-50/70 p-4 rounded-xl border border-pink-100">
+                                            <h4 class="font-bold text-pink-800 flex items-center gap-2 mb-2"><span
+                                                    class="text-xl">🎓</span> אקדמיה</h4>
+                                            <ul class="space-y-2 mt-1 text-sm text-slate-700">
+                                                <li class="flex items-start"><span
+                                                        class="text-pink-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">בניית התשתית להכשרת הדור הבא מאחורי הקלעים.</span>
+                                                </li>
+                                                <li class="flex items-start"><span
+                                                        class="text-pink-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">תכנון מדוקדק ופדגוגי של מערכי השיעור.</span></li>
+                                                <li class="flex items-start"><span
+                                                        class="text-pink-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">הכנת הקרקע לקליטת התלמידות על גבי מערכת
+                                                        ה-LMS.</span></li>
+                                            </ul>
+                                        </div>
+                                        <div class="bg-yellow-50/70 p-4 rounded-xl border border-yellow-200">
+                                            <h4 class="font-bold text-yellow-800 flex items-center gap-2 mb-2"><span
+                                                    class="text-xl">📢</span> מיתוג ויחסי ציבור</h4>
+                                            <ul class="space-y-2 mt-1 text-sm text-slate-700">
+                                                <li class="flex items-start"><span
+                                                        class="text-yellow-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">ביסוס המיתוג של בינתה והכנת הקרקע לפרסום והשקת
+                                                        פרופילים ברשתות.</span></li>
+                                                <li class="flex items-start"><span
+                                                        class="text-yellow-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">השקת קמפיין ממוקד לגיוס הסטודנטיות הראשונות.</span>
+                                                </li>
+                                                <li class="flex items-start"><span
+                                                        class="text-yellow-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">יצירת חיבורים אסטרטגיים ראשוניים מול ממשלות, צבאות
+                                                        וחברות טכנולוגיה.</span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Month 3 -->
+                    <div class="relative pr-16 group">
+                        <div
+                            class="absolute right-0 top-3 w-11 h-11 rounded-full bg-white border-4 border-pink-500 flex items-center justify-center shadow-sm z-10 transition-transform duration-300 group-hover:scale-110">
+                            <span class="text-pink-500 font-bold text-sm">3</span>
+                        </div>
+                        <div
+                            class="bg-slate-50 rounded-xl border border-slate-200 overflow-hidden transition-all duration-300 hover:shadow-md hover:border-pink-300">
+                            <div class="p-4 flex justify-between items-center cursor-pointer"
+                                onclick="toggleTimeline('step-3')">
+                                <h3 class="text-lg md:text-xl font-bold text-slate-800">חודש 3 <span
+                                        class="text-pink-600 font-normal text-md md:text-lg mr-2">- פתיחת האקדמיה</span>
+                                </h3>
+                                <svg id="icon-step-3"
+                                    class="w-6 h-6 text-pink-500 transform transition-transform duration-300"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                            <div id="content-step-3" class="px-4 pb-4 hidden opacity-0 transition-opacity duration-300">
+                                <p class="text-slate-600 mb-4">
+                                    השקת הקורסים והתחלת ההכשרה של המחזור הראשון, תוך שימוש במערכת ה-LMS הייעודית שפותחה
+                                    על ידי בית התוכנה. קליטת 36 עובדות-תלמידות חדשות למערך ההכשרה. מצבת העובדות במיזם
+                                    מזנקת ל-48 עובדות.
+                                </p>
+                                <button id="btn-pillars-step-3" onclick="togglePillars('step-3', event)"
+                                    class="bg-white border border-pink-200 text-pink-700 hover:bg-pink-50 px-4 py-2 rounded-lg text-sm font-bold transition-colors inline-flex items-center gap-2 shadow-sm">
+                                    נקודת המבט של 3 הפילרים <span>▼</span>
+                                </button>
+                                <div id="pillars-step-3"
+                                    class="hidden opacity-0 transition-opacity duration-300 mt-4 border-t border-slate-200 pt-4">
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                        <div class="bg-blue-50/70 p-4 rounded-xl border border-blue-100">
+                                            <h4 class="font-bold text-blue-800 flex items-center gap-2 mb-2"><span
+                                                    class="text-xl">💻</span> תכנות</h4>
+                                            <ul class="space-y-2 mt-1 text-sm text-slate-700">
+                                                <li class="flex items-start"><span
+                                                        class="text-blue-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">השלמת ה-LMS ומערכות התשתית עבור האקדמיה.</span>
+                                                </li>
+                                                <li class="flex items-start"><span
+                                                        class="text-blue-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">מתן תמיכה שוטפת להבטחת תהליך למידה חלק.</span></li>
+                                                <li class="flex items-start"><span
+                                                        class="text-blue-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">המשך פיתוח במלוא המרץ של פרויקטי הליבה שלנו.</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="bg-pink-50/70 p-4 rounded-xl border border-pink-100">
+                                            <h4 class="font-bold text-pink-800 flex items-center gap-2 mb-2"><span
+                                                    class="text-xl">🎓</span> אקדמיה</h4>
+                                            <ul class="space-y-2 mt-1 text-sm text-slate-700">
+                                                <li class="flex items-start"><span
+                                                        class="text-pink-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">פתיחת שערים: כניסת תלמידות המחזור הראשון
+                                                        לכיתה.</span></li>
+                                                <li class="flex items-start"><span
+                                                        class="text-pink-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">החברה חווה גדילה במצבת כוח האדם עם זינוק ל-48
+                                                        עובדות-תלמידות.</span></li>
+                                                <li class="flex items-start"><span
+                                                        class="text-pink-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">הכשרה מקצועית מהיום הראשון בסטנדרט הגבוה
+                                                        ביותר.</span></li>
+                                                <li class="flex items-start"><span
+                                                        class="text-pink-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">למידה פעילה על גבי ה-LMS הייעודי שלנו.</span></li>
+                                            </ul>
+                                        </div>
+                                        <div class="bg-yellow-50/70 p-4 rounded-xl border border-yellow-200">
+                                            <h4 class="font-bold text-yellow-800 flex items-center gap-2 mb-2"><span
+                                                    class="text-xl">📢</span> מיתוג ויחסי ציבור</h4>
+                                            <ul class="space-y-2 mt-1 text-sm text-slate-700">
+                                                <li class="flex items-start"><span
+                                                        class="text-yellow-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">חגיגות תקשורתיות לרגל פתיחת המחזור הראשון.</span>
+                                                </li>
+                                                <li class="flex items-start"><span
+                                                        class="text-yellow-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">שיווק האקו-סיסטם שלנו תוך-כדי תנועה.</span></li>
+                                                <li class="flex items-start"><span
+                                                        class="text-yellow-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">הצגת הפוטנציאל והמודל לשותפים ולקוחות
+                                                        עתידיים.</span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Month 4 -->
+                    <div class="relative pr-16 group">
+                        <div
+                            class="absolute right-0 top-3 w-11 h-11 rounded-full bg-white border-4 border-pink-500 flex items-center justify-center shadow-sm z-10 transition-transform duration-300 group-hover:scale-110">
+                            <span class="text-pink-500 font-bold text-sm">4</span>
+                        </div>
+                        <div
+                            class="bg-slate-50 rounded-xl border border-slate-200 overflow-hidden transition-all duration-300 hover:shadow-md hover:border-pink-300">
+                            <div class="p-4 flex justify-between items-center cursor-pointer"
+                                onclick="toggleTimeline('step-4')">
+                                <h3 class="text-lg md:text-xl font-bold text-slate-800">חודשים 6 - 4 <span
+                                        class="text-pink-600 font-normal text-md md:text-lg mr-2">- קפיצת גדילה
+                                        ראשונה</span></h3>
+                                <svg id="icon-step-4"
+                                    class="w-6 h-6 text-pink-500 transform transition-transform duration-300"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                            <div id="content-step-4" class="px-4 pb-4 hidden opacity-0 transition-opacity duration-300">
+                                <p class="text-slate-600 mb-4">
+                                    סיום פיתוח המוצר PROPABOTS. היערכות טכנית להרחבות האופרציה. העלאת הילוך משמעותית
+                                    בלימוד המעשי והכנה אינטנסיבית לקראת שילוב בעבודה אמיתית (Hands-on). המותג שלנו תופס
+                                    תאוצה משמעותית עם הדגשת העלייה במספר הנשים החרדיות בטכנולוגיה ומיצוב "בינתה" כפרויקט
+                                    צומח, יציב ושאפתני.
+                                </p>
+                                <button id="btn-pillars-step-4" onclick="togglePillars('step-4', event)"
+                                    class="bg-white border border-pink-200 text-pink-700 hover:bg-pink-50 px-4 py-2 rounded-lg text-sm font-bold transition-colors inline-flex items-center gap-2 shadow-sm">
+                                    נקודת המבט של 3 הפילרים <span>▼</span>
+                                </button>
+                                <div id="pillars-step-4"
+                                    class="hidden opacity-0 transition-opacity duration-300 mt-4 border-t border-slate-200 pt-4">
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                        <div class="bg-blue-50/70 p-4 rounded-xl border border-blue-100">
+                                            <h4 class="font-bold text-blue-800 flex items-center gap-2 mb-2"><span
+                                                    class="text-xl">💻</span>בית תוכנה (תכנות)</h4>
+                                            <ul class="space-y-2 mt-1 text-sm text-slate-700">
+                                                <li class="flex items-start"><span
+                                                        class="text-blue-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">סיום פיתוח והשקת המוצר PROPABOTS.</span></li>
+                                                <li class="flex items-start"><span
+                                                        class="text-blue-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">היערכות טכנית להתרחבות האדירה של האופרציה.</span>
+                                                </li>
+                                                <li class="flex items-start"><span
+                                                        class="text-blue-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">הכנת סביבות עבודה לקליטת מפתחות ג'וניור.</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="bg-pink-50/70 p-4 rounded-xl border border-pink-100">
+                                            <h4 class="font-bold text-pink-800 flex items-center gap-2 mb-2"><span
+                                                    class="text-xl">🎓</span> אקדמיה</h4>
+                                            <ul class="space-y-2 mt-1 text-sm text-slate-700">
+                                                <li class="flex items-start"><span
+                                                        class="text-pink-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">התחלת התנסויות בעבודה על "פרוייקטי אמת"- מחקרים
+                                                        ופיתוחים אשר ישרתו את החברה בעתיד</span></li>
+                                                <li class="flex items-start"><span
+                                                        class="text-pink-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">העלאת הילוך משמעותית בלימוד המעשי.</span></li>
+                                                <li class="flex items-start"><span
+                                                        class="text-pink-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">הכנה אינטנסיבית לקראת שילוב בעבודה אמיתית
+                                                        (Hands-on).</span></li>
+                                            </ul>
+                                        </div>
+                                        <div class="bg-yellow-50/70 p-4 rounded-xl border border-yellow-200">
+                                            <h4 class="font-bold text-yellow-800 flex items-center gap-2 mb-2"><span
+                                                    class="text-xl">📢</span> מיתוג ויחסי ציבור</h4>
+                                            <ul class="space-y-2 mt-1 text-sm text-slate-700">
+                                                <li class="flex items-start"><span
+                                                        class="text-yellow-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">המותג שלנו תופס תאוצה משמעותית.</span></li>
+                                                <li class="flex items-start"><span
+                                                        class="text-yellow-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">הדגשת העלייה במספר הנשים החרדיות בטכנולוגיה.</span>
+                                                </li>
+                                                <li class="flex items-start"><span
+                                                        class="text-yellow-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">מיצוב "בינתה" כפרויקט צומח, יציב ושאפתני.</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Month 7 -->
+                    <div class="relative pr-16 group">
+                        <div
+                            class="absolute right-0 top-3 w-11 h-11 rounded-full bg-white border-4 border-yellow-500 flex items-center justify-center shadow-sm z-10 transition-transform duration-300 group-hover:scale-110">
+                            <span class="text-yellow-500 font-bold text-sm">7</span>
+                        </div>
+                        <div
+                            class="bg-slate-50 rounded-xl border border-slate-200 overflow-hidden transition-all duration-300 hover:shadow-md hover:border-yellow-300">
+                            <div class="p-4 flex justify-between items-center cursor-pointer"
+                                onclick="toggleTimeline('step-7')">
+                                <h3 class="text-lg md:text-xl font-bold text-slate-800">חודש 7 <span
+                                        class="text-yellow-600 font-normal text-md md:text-lg mr-2">- ייצור מעשי
+                                        (Hands-on)</span></h3>
+                                <svg id="icon-step-7"
+                                    class="w-6 h-6 text-yellow-500 transform transition-transform duration-300"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                            <div id="content-step-7" class="px-4 pb-4 hidden opacity-0 transition-opacity duration-300">
+                                <p class="text-slate-600 mb-4">
+                                    עוד לפני סיום הלימודים, הסטודנטיות משתלבות באופן אופרטיבי בכתיבת קוד ופיתוח פרויקטי
+                                    הליבה האמיתיים (AMAS, PROPABOTS, GUARD).
+                                </p>
+                                <button id="btn-pillars-step-7" onclick="togglePillars('step-7', event)"
+                                    class="bg-white border border-yellow-200 text-yellow-700 hover:bg-yellow-50 px-4 py-2 rounded-lg text-sm font-bold transition-colors inline-flex items-center gap-2 shadow-sm">
+                                    נקודת המבט של 3 הפילרים <span>▼</span>
+                                </button>
+                                <div id="pillars-step-7"
+                                    class="hidden opacity-0 transition-opacity duration-300 mt-4 border-t border-slate-200 pt-4">
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                        <div class="bg-blue-50/70 p-4 rounded-xl border border-blue-100">
+                                            <h4 class="font-bold text-blue-800 flex items-center gap-2 mb-2"><span
+                                                    class="text-xl">💻</span>בית תוכנה (תכנות)</h4>
+                                            <ul class="space-y-2 mt-1 text-sm text-slate-700">
+                                                <li class="flex items-start"><span
+                                                        class="text-blue-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">הקסם קורה: הסטודנטיות מצטרפות להכשרות אינטנסיביות
+                                                        בצמוד לצוותי הפיתוח הרשמיים.</span></li>
+                                                <li class="flex items-start"><span
+                                                        class="text-blue-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">כתיבת קוד לייצור בפרויקטים חיצוניים במלוא
+                                                        המרץ.</span></li>
+                                                <li class="flex items-start"><span
+                                                        class="text-blue-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">תחילת איסוף תכנים ודאטה לפיתוח ואימון המודלים
+                                                        הפנימיים.</span></li>
+                                            </ul>
+                                        </div>
+                                        <div class="bg-pink-50/70 p-4 rounded-xl border border-pink-100">
+                                            <h4 class="font-bold text-pink-800 flex items-center gap-2 mb-2"><span
+                                                    class="text-xl">🎓</span> אקדמיה</h4>
+                                            <ul class="space-y-2 mt-1 text-sm text-slate-700">
+                                                <li class="flex items-start"><span
+                                                        class="text-pink-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">הישג שיא: התלמידות עובדות עוד לפני קבלת
+                                                        התעודה.</span></li>
+                                                <li class="flex items-start"><span
+                                                        class="text-pink-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">ביצוע מחקרים בהובלת פרופ' חווה זיגלמן, בשילוב ומתן
+                                                        קרדיט שמי לסטודנטיות.</span></li>
+                                                <li class="flex items-start"><span
+                                                        class="text-pink-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">שילוב חלק ומוצלח בצוותי הפיתוח האורגניים.</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="bg-yellow-50/70 p-4 rounded-xl border border-yellow-200">
+                                            <h4 class="font-bold text-yellow-800 flex items-center gap-2 mb-2"><span
+                                                    class="text-xl">📢</span> מיתוג ויחסי ציבור</h4>
+                                            <ul class="space-y-2 mt-1 text-sm text-slate-700">
+                                                <li class="flex items-start"><span
+                                                        class="text-yellow-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">הצגת תוצרי פיתוח שיוצאים לשוק תוך כדי
+                                                        ההכשרה.</span></li>
+                                                <li class="flex items-start"><span
+                                                        class="text-yellow-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">חשיפת ההצלחה המעשית בפני גופים ממשלתיים.</span>
+                                                </li>
+                                                <li class="flex items-start"><span
+                                                        class="text-yellow-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">יצירת קשר עם האורחים מחו"ל לווידוא הגעתם לארץ בזמן
+                                                        לטקס.</span></li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Month 8 -->
+                    <div class="relative pr-16 group">
+                        <div
+                            class="absolute right-0 top-3 w-11 h-11 rounded-full bg-white border-4 border-blue-500 flex items-center justify-center shadow-sm z-10 transition-transform duration-300 group-hover:scale-110">
+                            <span class="text-blue-500 font-bold text-sm">8</span>
+                        </div>
+                        <div
+                            class="bg-slate-50 rounded-xl border border-slate-200 overflow-hidden transition-all duration-300 hover:shadow-md hover:border-blue-300">
+                            <div class="p-4 flex justify-between items-center cursor-pointer"
+                                onclick="toggleTimeline('step-8')">
+                                <h3 class="text-lg md:text-xl font-bold text-slate-800">חודשים 11 - 8 <span
+                                        class="text-blue-600 font-normal text-md md:text-lg mr-2">- קליטת בוגרות מחזור
+                                        א' והתרחבות</span></h3>
+                                <svg id="icon-step-8"
+                                    class="w-6 h-6 text-blue-500 transform transition-transform duration-300"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                            <div id="content-step-8" class="px-4 pb-4 hidden opacity-0 transition-opacity duration-300">
+                                <p class="text-slate-600 mb-4">
+                                    המחזור הראשון מסיים רשמית את ההכשרה. כוח הפיתוח המיומן והמוגדל מאפשר לחברה לגשת
+                                    ולקלוט פרויקטים חדשים.
+                                </p>
+                                <button id="btn-pillars-step-8" onclick="togglePillars('step-8', event)"
+                                    class="bg-white border border-blue-200 text-blue-700 hover:bg-blue-50 px-4 py-2 rounded-lg text-sm font-bold transition-colors inline-flex items-center gap-2 shadow-sm">
+                                    נקודת המבט של 3 הפילרים <span>▼</span>
+                                </button>
+                                <div id="pillars-step-8"
+                                    class="hidden opacity-0 transition-opacity duration-300 mt-4 border-t border-slate-200 pt-4">
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                        <div class="bg-blue-50/70 p-4 rounded-xl border border-blue-100">
+                                            <h4 class="font-bold text-blue-800 flex items-center gap-2 mb-2"><span
+                                                    class="text-xl">💻</span>בית תוכנה (תכנות)</h4>
+                                            <ul class="space-y-2 mt-1 text-sm text-slate-700">
+                                                <li class="flex items-start"><span
+                                                        class="text-blue-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">קליטת צי של מפתחות שהוכשרו אצלנו מ-0 למאה.</span>
+                                                </li>
+                                                <li class="flex items-start"><span
+                                                        class="text-blue-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">יכולת לקחת פרויקטים חדשים ומורכבים הרבה
+                                                        יותר.</span></li>
+                                                <li class="flex items-start"><span
+                                                        class="text-blue-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">התרחבות משמעותית של סל השירותים הטכנולוגיים
+                                                        שלנו.</span></li>
+                                            </ul>
+                                        </div>
+                                        <div class="bg-pink-50/70 p-4 rounded-xl border border-pink-100">
+                                            <h4 class="font-bold text-pink-800 flex items-center gap-2 mb-2"><span
+                                                    class="text-xl">🎓</span> אקדמיה</h4>
+                                            <ul class="space-y-2 mt-1 text-sm text-slate-700">
+                                                <li class="flex items-start"><span
+                                                        class="text-pink-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">סיום מוצלח וחגיגי של המחזור הראשון.</span></li>
+                                                <li class="flex items-start"><span
+                                                        class="text-pink-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">הבאת אורחים מחו"ל להעברת הרצאות אורח והענקת התארים.</span></li>
+                                                <li class="flex items-start"><span
+                                                        class="text-pink-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">היערכות להרחבת המהפכה ולפתיחת מסלולים חדשים.</span>
+                                                </li>
+                                                  <li class="flex items-start"><span
+                                                        class="text-pink-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">הכנת תשתית אקדמית לקליטת מעל 100 נשים נוספות עד
+                                                        חודש 18.</span></li>
+                                            </ul>
+                                        </div>
+                                        <div class="bg-yellow-50/70 p-4 rounded-xl border border-yellow-200">
+                                            <h4 class="font-bold text-yellow-800 flex items-center gap-2 mb-2"><span
+                                                    class="text-xl">📢</span> מיתוג ויחסי ציבור</h4>
+                                            <ul class="space-y-2 mt-1 text-sm text-slate-700">
+                                                <li class="flex items-start"><span
+                                                        class="text-yellow-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">מיצוב החברה כגוף פיתוח צומח, אמין ומשפיע.</span>
+
+                                                    <li class="flex items-start"><span
+                                                        class="text-yellow-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">פרסום חגיגות הבוגרות הראשונות של "בינתה" בטקס קבלת תעודות חגיגי.</span></li>
+                                                                                                        </li>
+                                                                                                <li class="flex items-start"><span
+                                                        class="text-yellow-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">הוכחת המודל הייחודי שלנו למשקיעים ולעולם.</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Year 1 -->
+                    <div class="relative pr-16 group">
+                        <div
+                            class="absolute right-0 top-3 w-11 h-11 rounded-full bg-white border-4 border-pink-600 flex items-center justify-center shadow-sm z-10 transition-transform duration-300 group-hover:scale-110">
+                            <span class="text-pink-600 font-bold text-xs">שנה</span>
+                        </div>
+                        <div
+                            class="bg-slate-50 rounded-xl border border-slate-200 overflow-hidden transition-all duration-300 hover:shadow-md hover:border-pink-400">
+                            <div class="p-4 flex justify-between items-center cursor-pointer"
+                                onclick="toggleTimeline('step-12')">
+                                <h3 class="text-lg md:text-xl font-bold text-slate-800">חודשים 17 - 12 <span
+                                        class="text-pink-600 font-normal text-md md:text-lg mr-2">- הסרת חסמי
+                                        כניסה</span></h3>
+                                <svg id="icon-step-12"
+                                    class="w-6 h-6 text-pink-600 transform transition-transform duration-300"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                            <div id="content-step-12"
+                                class="px-4 pb-4 hidden opacity-0 transition-opacity duration-300">
+                                <p class="text-slate-600 mb-4">
+                                    מהפכה באקדמיה: פתיחת מסלולי לימוד רחבים לנשים ללא רקע וידע קודם בתכנות, מה שמרחיב
+                                    משמעותית את פוטנציאל הגיוס של החברה.
+                                </p>
+                                <button id="btn-pillars-step-12" onclick="togglePillars('step-12', event)"
+                                    class="bg-white border border-pink-200 text-pink-700 hover:bg-pink-50 px-4 py-2 rounded-lg text-sm font-bold transition-colors inline-flex items-center gap-2 shadow-sm">
+                                    נקודת המבט של 3 הפילרים <span>▼</span>
+                                </button>
+                                <div id="pillars-step-12"
+                                    class="hidden opacity-0 transition-opacity duration-300 mt-4 border-t border-slate-200 pt-4">
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                        <div class="bg-blue-50/70 p-4 rounded-xl border border-blue-100">
+                                            <h4 class="font-bold text-blue-800 flex items-center gap-2 mb-2"><span
+                                                    class="text-xl">💻</span>בית תוכנה (תכנות)</h4>
+                                            <ul class="space-y-2 mt-1 text-sm text-slate-700">
+                                                <li class="flex items-start"><span
+                                                        class="text-blue-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">פיתוח שוטף של מגוון פרויקטים מורכבים במקביל.</span>
+                                                </li>
+                                                <li class="flex items-start"><span
+                                                        class="text-blue-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">המשך המחקר ואיסוף דאטה נרחב כהכנה לעתיד.</span>
+                                                </li>
+                                                <li class="flex items-start"><span
+                                                        class="text-blue-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">הנחת היסודות לפיתוח עתידי של מודלי בינה
+                                                        מלאכותית.</span></li>
+                                            </ul>
+                                        </div>
+                                        <div class="bg-pink-50/70 p-4 rounded-xl border border-pink-100">
+                                            <h4 class="font-bold text-pink-800 flex items-center gap-2 mb-2"><span
+                                                    class="text-xl">🎓</span> אקדמיה</h4>
+                                            <ul class="space-y-2 mt-1 text-sm text-slate-700">
+                                                <li class="flex items-start"><span
+                                                        class="text-pink-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">המהפכה! פתיחת מסלולים לנשים ללא ידע קודם
+                                                        בתכנות.</span></li>
+                                                <li class="flex items-start"><span
+                                                        class="text-pink-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">פתיחת מסלול מכינה טכנולוגית אינטנסיבי להשלמת
+                                                        פערים.</span></li>
+                                                                                                        <li class="flex items-start"><span
+                                                        class="text-pink-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">התרחבות משמעותית בכמות התלמידות בכל הכשרה בהתאם לגרף הצמיחה ולצרכי השוק.</span></li>
+                                              
+                                            </ul>
+                                        </div>
+                                        <div class="bg-yellow-50/70 p-4 rounded-xl border border-yellow-200">
+                                            <h4 class="font-bold text-yellow-800 flex items-center gap-2 mb-2"><span
+                                                    class="text-xl">📢</span> מיתוג ויחסי ציבור</h4>
+                                            <ul class="space-y-2 mt-1 text-sm text-slate-700">
+                                                <li class="flex items-start"><span
+                                                        class="text-yellow-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">הרחבת קהל היעד והפצת הבשורה בקהילה.</span></li>
+                                                <li class="flex items-start"><span
+                                                        class="text-yellow-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">קמפיין נרחב תחת המסר: "הדלתות פתוחות לכולן".</span>
+                                                </li>
+                                                <li class="flex items-start"><span
+                                                        class="text-yellow-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">העצמת הנרטיב של שינוי חברתי אמיתי באמצעות
+                                                        טכנולוגיה.</span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Month 18 -->
+                    <div class="relative pr-16 group">
+                        <div
+                            class="absolute right-0 top-3 w-11 h-11 rounded-full bg-white border-4 border-yellow-500 flex items-center justify-center shadow-sm z-10 transition-transform duration-300 group-hover:scale-110">
+                            <span class="text-yellow-500 font-bold text-sm">18</span>
+                        </div>
+                        <div
+                            class="bg-slate-50 rounded-xl border border-slate-200 overflow-hidden transition-all duration-300 hover:shadow-md hover:border-yellow-400">
+                            <div class="p-4 flex justify-between items-center cursor-pointer"
+                                onclick="toggleTimeline('step-18')">
+                                <h3 class="text-lg md:text-xl font-bold text-slate-800">חודשים 18+ <span
+                                        class="text-yellow-600 font-normal text-md md:text-lg mr-2">- מעצמת AI
+                                        וסקיילינג</span></h3>
+                                <svg id="icon-step-18"
+                                    class="w-6 h-6 text-yellow-500 transform transition-transform duration-300"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                            <div id="content-step-18"
+                                class="px-4 pb-4 hidden opacity-0 transition-opacity duration-300">
+                                <p class="text-slate-600 mb-4">
+                                    הגעה ליעד של 152 עובדות. לאחר תקופה של איסוף דאטה רחב, החברה מתחילה בפיתוח ואימון של
+                                    מודלי בינה מלאכותית (AI) פנימיים ופורצי דרך.
+                                </p>
+                                <button id="btn-pillars-step-18" onclick="togglePillars('step-18', event)"
+                                    class="bg-white border border-yellow-200 text-yellow-700 hover:bg-yellow-50 px-4 py-2 rounded-lg text-sm font-bold transition-colors inline-flex items-center gap-2 shadow-sm">
+                                    נקודת המבט של 3 הפילרים <span>▼</span>
+                                </button>
+                                <div id="pillars-step-18"
+                                    class="hidden opacity-0 transition-opacity duration-300 mt-4 border-t border-slate-200 pt-4">
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                        <div class="bg-blue-50/70 p-4 rounded-xl border border-blue-100">
+                                            <h4 class="font-bold text-blue-800 flex items-center gap-2 mb-2"><span
+                                                    class="text-xl">💻</span>בית תוכנה (תכנות)</h4>
+                                            <ul class="space-y-2 mt-1 text-sm text-slate-700">
+                                                <li class="flex items-start"><span
+                                                        class="text-blue-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">הגעה לסדרי גודל עצומים כמעצמת פיתוח לאומית.</span>
+                                                </li>
+                                                <li class="flex items-start"><span
+                                                        class="text-blue-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">פתיחת עידן טכנולוגי חדש לחלוטין.</span></li>
+                                                <li class="flex items-start"><span
+                                                        class="text-blue-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">פיתוח ואימון של מודלי AI פנימיים ופורצי דרך.</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="bg-pink-50/70 p-4 rounded-xl border border-pink-100">
+                                            <h4 class="font-bold text-pink-800 flex items-center gap-2 mb-2"><span
+                                                    class="text-xl">🎓</span> אקדמיה</h4>
+                                            <ul class="space-y-2 mt-1 text-sm text-slate-700">
+                                                <li class="flex items-start"><span
+                                                        class="text-pink-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">מנוע ההכשרה פועל בשיא העוצמה שלו.</span></li>
+                                                <li class="flex items-start"><span
+                                                        class="text-pink-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">המהלך של השנה הראשונה מוכיח את עצמו מעל
+                                                        למצופה.</span></li>
+                                                <li class="flex items-start"><span
+                                                        class="text-pink-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">הזרמת 104 עובדות חדשות מהאקדמיה למערכת.</span></li>
+                                            </ul>
+                                        </div>
+                                        <div class="bg-yellow-50/70 p-4 rounded-xl border border-yellow-200">
+                                            <h4 class="font-bold text-yellow-800 flex items-center gap-2 mb-2"><span
+                                                    class="text-xl">📢</span> מיתוג ויחסי ציבור</h4>
+                                            <ul class="space-y-2 mt-1 text-sm text-slate-700">
+                                                <li class="flex items-start"><span
+                                                        class="text-yellow-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">הפריצה הגדולה של מותג "בינתה".</span></li>
+                                                <li class="flex items-start"><span
+                                                        class="text-yellow-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">מיתוג רשמי כמעצמת בינה מלאכותית לאומית.</span></li>
+                                                <li class="flex items-start"><span
+                                                        class="text-yellow-500 ml-2 -mt-1.5 text-3xl font-black leading-none">•</span><span
+                                                        class="pt-1">ביסוס הארגון ומיתוגו כמוביל ופורץ דרך- בין אם בגבולות ישראל ובין אם מחוצה לה.</span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- NEW Drill-Down Interactive Graph Section -->
+        <!-- <section class="mb-16 bg-white p-6 md:p-10 rounded-2xl shadow-sm border border-slate-100">
+            <h2 class="text-3xl font-bold mb-4 text-center text-slate-800">עץ מבנה ארגוני ופרויקטאלי - <span
+                    class="text-blue-600">גרף אינטראקטיבי לחקירה</span></h2>
+            <p class="text-center text-slate-500 mb-8 text-lg">
+                <span class="font-bold text-blue-600">לחצו על העיגולים</span> כדי לצלול פנימה ולפתוח רזולוציות חדשות.
+                משכו אותם כדי לארגן מחדש את התצוגה. עיגולים עם מסגרת מקווקוות ניתנים לפתיחה נוספת!
+            </p>
+
+            <div id="d3-graph-container"
+                class="w-full max-w-5xl mx-auto h-[600px] md:h-[750px] bg-[#f8fafc] border border-slate-200 rounded-2xl relative shadow-inner cursor-grab active:cursor-grabbing overflow-hidden">
+                <!-- Tooltip for the graph -->
+                <!-- <div id="d3-tooltip" class="d3-tooltip"></div> -->
+                <!-- D3 SVG will be injected here -->
+            <!-- </div> -->
+        <!-- </section> --> 
+
+    </main>
+
+    <script>
+        // Main timeline accordion
+        function toggleTimeline(stepId) {
+            const content = document.getElementById('content-' + stepId);
+            const icon = document.getElementById('icon-' + stepId);
+
+            if (content.classList.contains('hidden')) {
+                // Open main accordion
+                content.classList.remove('hidden');
+                setTimeout(() => content.classList.remove('opacity-0'), 10);
+                icon.classList.add('rotate-180');
+            } else {
+                // Close main accordion
+                content.classList.add('opacity-0');
+                icon.classList.remove('rotate-180');
+                setTimeout(() => {
+                    content.classList.add('hidden');
+
+                    // Automatically close the nested pillars if they were open
+                    const pillars = document.getElementById('pillars-' + stepId);
+                    const btn = document.getElementById('btn-pillars-' + stepId);
+                    if (pillars && !pillars.classList.contains('hidden')) {
+                        pillars.classList.add('opacity-0');
+                        pillars.classList.add('hidden');
+                        btn.innerHTML = 'נקודת המבט של 3 הפילרים <span>▼</span>';
+                    }
+                }, 300);
+            }
+        }
+
+        // Nested pillars accordion (2nd click)
+        function togglePillars(stepId, event) {
+            event.stopPropagation();
+
+            const pillars = document.getElementById('pillars-' + stepId);
+            const btn = document.getElementById('btn-pillars-' + stepId);
+
+            if (pillars.classList.contains('hidden')) {
+                // Open Pillars
+                pillars.classList.remove('hidden');
+                setTimeout(() => pillars.classList.remove('opacity-0'), 10);
+                btn.innerHTML = 'הסתרת נקודת המבט <span>▲</span>';
+            } else {
+                // Close Pillars
+                pillars.classList.add('opacity-0');
+                setTimeout(() => pillars.classList.add('hidden'), 300);
+                btn.innerHTML = 'נקודת המבט של 3 הפילרים <span>▼</span>';
+            }
+        }
+
+        // Graph Configuration
+        document.addEventListener('DOMContentLoaded', function () {
+            const ctx = document.getElementById('growthChart').getContext('2d');
+
+            let gradient = ctx.createLinearGradient(0, 0, 0, 400);
+            gradient.addColorStop(0, 'rgba(37, 99, 235, 0.5)');
+            gradient.addColorStop(1, 'rgba(37, 99, 235, 0.0)');
+
+            const growthChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['חודש 0', 'חודש 4', 'חודש 18'],
+                    datasets: [{
+                        label: 'מספר עובדות פעילות',
+                        data: [12, 48, 152],
+                        borderColor: '#2563eb',
+                        backgroundColor: gradient,
+                        borderWidth: 4,
+                        pointBackgroundColor: '#ffffff',
+                        pointBorderColor: '#2563eb',
+                        pointBorderWidth: 3,
+                        pointRadius: 6,
+                        pointHoverRadius: 8,
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#1e293b',
+                            titleFont: { family: 'Heebo', size: 14 },
+                            bodyFont: { family: 'Heebo', size: 14 },
+                            padding: 12,
+                            displayColors: false,
+                            callbacks: {
+                                label: function (context) { return context.parsed.y + ' עובדות'; }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: '#f1f5f9', drawBorder: false }, ticks: { font: { family: 'Heebo' }, color: '#64748b' } },
+                        x: { grid: { display: false, drawBorder: false }, ticks: { font: { family: 'Heebo', size: 14, weight: 'bold' }, color: '#334155' } }
+                    }
+                }
+            });
+
+            // Initialize the D3 Interactive Network Graph safely
+            function checkAndInitD3() {
+                if (typeof d3 !== 'undefined') {
+                    initD3Graph();
+                } else {
+                    setTimeout(checkAndInitD3, 50);
+                }
+            }
+            checkAndInitD3();
+        });
+
+        // D3.js Hierarchical Network Graph Initialization
+        function initD3Graph() {
+            const container = document.getElementById('d3-graph-container');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+
+            // Deep Hierarchical Data Structure
+            const treeData = {
+                id: 'root', group: 0, label: 'בינתה', size: 55, desc: 'המעבדה הלאומית לבינה מלאכותית',
+                children: [
+                    {
+                        id: 'tech', group: 1, label: 'תכנות', size: 45, desc: 'בית התוכנה והפיתוח של בינתה',
+                        children: [
+                            {
+                                id: 'amas', group: 1, label: 'AMAS', size: 35, desc: 'תשתית סוכני AI לניהול ואוטומציה',
+                                children: [
+                                    { id: 'amas_backend', group: 1, label: 'Back-end', size: 25, desc: 'תשתית שרתים ומסדי נתונים' },
+                                    { id: 'amas_agents', group: 1, label: 'סוכני AI', size: 25, desc: 'לוגיקה עסקית ואוטומציה' },
+                                    { id: 'amas_ui', group: 1, label: 'UI/UX', size: 25, desc: 'עיצוב ממשק משתמש לארגונים' }
+                                ]
+                            },
+                            {
+                                id: 'propabots', group: 1, label: 'PROPABOTS', size: 35, desc: 'בוטים להסברה ומאבק אוטומטי',
+                                children: [
+                                    { id: 'propa_scrape', group: 1, label: 'איסוף דאטה', size: 25, desc: 'Scraping חכם מרשתות חברתיות' },
+                                    { id: 'propa_algo', group: 1, label: 'זיהוי פייק ניוז', size: 25, desc: 'אלגוריתם AI לזיהוי תוכן עוין' },
+                                    { id: 'propa_auto', group: 1, label: 'תגובות רשת', size: 25, desc: 'הפעלת רשת בוטים להסברה נגדית' }
+                                ]
+                            },
+                            {
+                                id: 'guard', group: 1, label: 'GUARD', size: 35, desc: 'מערכת ניהול חווה ייעודית',
+                                children: [
+                                    { id: 'guard_sec', group: 1, label: 'אבטחת מידע', size: 25, desc: 'הגנה על סודיות הנתונים במערכת' },
+                                    { id: 'guard_users', group: 1, label: 'ניהול משתמשים', size: 25, desc: 'הרשאות וגישה למערכות החווה' }
+                                ]
+                            },
+                            {
+                                id: 'lms', group: 1, label: 'LMS', size: 35, desc: 'פלטפורמת הלמידה העצמאית לאקדמיה',
+                                children: [
+                                    { id: 'lms_course', group: 1, label: 'ניהול קורסים', size: 25, desc: 'מערכת לבניית שיעורים ומשימות' },
+                                    { id: 'lms_track', group: 1, label: 'מעקב הישגים', size: 25, desc: 'דשבורד ציונים והתקדמות לסטודנטיות' }
+                                ]
+                            },
+                            {
+                                id: 'ai', group: 1, label: 'מודלי AI', size: 35, desc: 'פיתוח, מחקר ואימון של מודלי שפה',
+                                children: [
+                                    { id: 'ai_data', group: 1, label: 'תיוג דאטה', size: 25, desc: 'איסוף והכנת מידע לאימון (Data Labeling)' },
+                                    { id: 'ai_train', group: 1, label: 'אימון מודלים', size: 25, desc: 'אימון רשתות נוירונים למשימות מורכבות' }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        id: 'academy', group: 2, label: 'אקדמיה', size: 45, desc: 'מערך ההכשרה והלימודים',
+                        children: [
+                            {
+                                id: 'pedagogy', group: 2, label: 'פדגוגיה', size: 35, desc: 'תכנון מדוקדק של תוכניות הלימוד',
+                                children: [
+                                    { id: 'ped_tech', group: 2, label: 'סילבוס פיתוח', size: 25, desc: 'בניית תוכנית לימודי קוד וטכנולוגיה' },
+                                    { id: 'ped_soft', group: 2, label: 'כישורים רכים', size: 25, desc: 'פיתוח עבודת צוות וכישורי הייטק' }
+                                ]
+                            },
+                            {
+                                id: 'cycle1', group: 2, label: 'מחזור א\'', size: 35, desc: 'הכשרת סטודנטיות מיומנות מ-0 למאה',
+                                children: [
+                                    { id: 'cyc_screen', group: 2, label: 'סינון ומיון', size: 25, desc: 'קבלת המועמדות המתאימות ביותר' },
+                                    { id: 'cyc_mentor', group: 2, label: 'מנטורינג', size: 25, desc: 'ליווי אישי לכל אורך תקופת ההכשרה' }
+                                ]
+                            },
+                            {
+                                id: 'handson', group: 2, label: 'Hands-on', size: 35, desc: 'שילוב בפרויקטים אמיתיים בחודש 7',
+                                children: [
+                                    { id: 'hand_team', group: 2, label: 'שילוב בצוותים', size: 25, desc: 'עבודה אורגנית בתוך צוותי בית התוכנה' },
+                                    { id: 'hand_review', group: 2, label: 'Code Review', size: 25, desc: 'בדיקת קוד מקצועית על ידי בכירות' }
+                                ]
+                            },
+                            {
+                                id: 'scale', group: 2, label: 'סקיילינג', size: 35, desc: 'פתיחת מסלולים ללא רקע אקדמי',
+                                children: [
+                                    { id: 'sca_nocode', group: 2, label: 'מסלול מתחילות', size: 25, desc: 'לימוד הדרגתי לנשים ללא רקע קודם' },
+                                    { id: 'sca_prep', group: 2, label: 'מכינה טכנולוגית', size: 25, desc: 'השלמת פערים לפני תחילת הלימודים' }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        id: 'pr', group: 3, label: 'מיתוג ויח"צ', size: 45, desc: 'מערך השיווק, קשרי החוץ והמיתוג',
+                        children: [
+                            {
+                                id: 'marketing', group: 3, label: 'קמפיינים', size: 35, desc: 'שיווק תחת המסר: הדלתות פתוחות',
+                                children: [
+                                    { id: 'mar_social', group: 3, label: 'סושיאל מדיה', size: 25, desc: 'נוכחות דיגיטלית חזקה ברשתות' },
+                                    { id: 'mar_articles', group: 3, label: 'כתבות תדמית', size: 25, desc: 'פרסום כתבות להעלאת המודעות בקהילה' }
+                                ]
+                            },
+                            {
+                                id: 'gov', group: 3, label: 'קשרי חוץ', size: 35, desc: 'יצירת חיבורים לממשלות וארגוני ביטחון',
+                                children: [
+                                    { id: 'gov_mod', group: 3, label: 'משרדי ממשלה', size: 25, desc: 'תמיכה, מימון ושיתופי פעולה לאומיים' },
+                                    { id: 'gov_inv', group: 3, label: 'משקיעים', size: 25, desc: 'גיוס הון להרחבת הפעילות המשותפת' }
+                                ]
+                            },
+                            {
+                                id: 'brand', group: 3, label: 'מיצוב AI', size: 35, desc: 'מיצוב בינתה כהאב (Hub) לאומי',
+                                children: [
+                                    { id: 'bra_conf', group: 3, label: 'כנסים ואירועים', size: 25, desc: 'השתתפות והובלה של כנסי טכנולוגיה' },
+                                    { id: 'bra_blog', group: 3, label: 'פרסומים טכניים', size: 25, desc: 'הפצת מאמרים מתוך פיתוחי המעבדה' }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            };
+
+            const svg = d3.select("#d3-graph-container")
+                .append("svg")
+                .attr("width", "100%")
+                .attr("height", "100%")
+                .attr("viewBox", `0 0 ${width} ${height}`);
+
+            const colors = {
+                0: { node: '#1e293b', text: '#ffffff', hull: 'transparent', hullStroke: 'transparent' },
+                1: { node: '#3b82f6', text: '#ffffff', hull: 'rgba(59, 130, 246, 0.12)', hullStroke: 'rgba(59, 130, 246, 0.15)' },
+                2: { node: '#ec4899', text: '#ffffff', hull: 'rgba(236, 72, 153, 0.10)', hullStroke: 'rgba(236, 72, 153, 0.12)' },
+                3: { node: '#eab308', text: '#ffffff', hull: 'rgba(234, 179, 8, 0.12)', hullStroke: 'rgba(234, 179, 8, 0.15)' }
+            };
+
+            const hullGroup = svg.append("g").attr("class", "hulls");
+            const linkGroup = svg.append("g").attr("class", "links");
+            const nodeGroup = svg.append("g").attr("class", "nodes");
+            const tooltip = d3.select("#d3-tooltip");
+            const containerEl = document.getElementById("d3-graph-container");
+
+            // Process hierarchy
+            const root = d3.hierarchy(treeData);
+
+            // Assign initial coordinates & collapse deeper levels
+            root.descendants().forEach(d => {
+                d.id = d.data.id;
+                d.group = d.data.group;
+                d.label = d.data.label;
+                d.size = d.data.size;
+                d.desc = d.data.desc;
+                d.x = width / 2;
+                d.y = height / 2;
+
+                // Collapse nodes below level 1 (only show Root and the 3 Pillars at start)
+                if (d.depth > 0) {
+                    d._children = d.children;
+                    d.children = null;
+                }
+            });
+
+            // Physics Simulation
+            const simulation = d3.forceSimulation()
+                .force("link", d3.forceLink().id(d => d.id).distance(d => d.source.id === 'root' ? 120 : 80))
+                .force("charge", d3.forceManyBody().strength(-900)) // Push apart
+                .force("center", d3.forceCenter(width / 2, height / 2))
+                .force("collide", d3.forceCollide().radius(d => d.size + 15).iterations(3))
+                // Gently pull groups to specific areas to prevent overlapping
+                .force("x", d3.forceX().strength(0.06).x(d => {
+                    if (d.group === 1) return width * 0.25; // Tech Left
+                    if (d.group === 2) return width * 0.75; // Academy Right
+                    if (d.group === 3) return width * 0.5;  // PR Center
+                    return width / 2;
+                }))
+                .force("y", d3.forceY().strength(0.06).y(d => {
+                    if (d.group === 1) return height * 0.35; // Tech Top Left
+                    if (d.group === 2) return height * 0.35; // Academy Top Right
+                    if (d.group === 3) return height * 0.75; // PR Bottom
+                    return height / 2;
+                }));
+
+            // Lift selections to outer scope so tick function can access them properly
+            let link = linkGroup.selectAll("line");
+            let node = nodeGroup.selectAll(".node");
+
+            // Setup tick listener ONCE
+            simulation.on("tick", () => {
+                const currentNodes = simulation.nodes();
+                if (!currentNodes || currentNodes.length === 0) return;
+
+                // Update Hulls (Blobs)
+                const groups = d3.group(currentNodes.filter(n => n.group !== 0), d => d.group);
+                const hullData = Array.from(groups, ([key, values]) => ({ group: key, nodes: values }));
+
+                const hulls = hullGroup.selectAll("path").data(hullData, d => d.group);
+
+                hulls.enter().append("path")
+                    .merge(hulls)
+                    .attr("d", d => {
+                        const points = d.nodes.map(n => [n.x, n.y]);
+                        if (points.length === 0) return "";
+                        if (points.length === 1) {
+                            // Draw a tiny line with heavy rounded stroke to create a circle
+                            return `M ${points[0][0]} ${points[0][1]} l 0.01 0`;
+                        }
+                        if (points.length === 2) {
+                            // Draw line between 2 points
+                            return `M ${points[0][0]} ${points[0][1]} L ${points[1][0]} ${points[1][1]}`;
+                        }
+                        // 3+ points: Real Hull
+                        const hull = d3.polygonHull(points);
+                        if (!hull) return "";
+                        return "M" + hull.join("L") + "Z";
+                    })
+                    .attr("fill", d => colors[d.group].hull)
+                    .attr("stroke", d => colors[d.group].hullStroke)
+                    .attr("stroke-width", 90)
+                    .attr("stroke-linejoin", "round")
+                    .attr("stroke-linecap", "round")
+                    .style("pointer-events", "none");
+
+                hulls.exit().remove();
+
+                // Update Link positions
+                link
+                    .attr("x1", d => d.source.x)
+                    .attr("y1", d => d.source.y)
+                    .attr("x2", d => d.target.x)
+                    .attr("y2", d => d.target.y);
+
+                // Update Node positions
+                node.attr("transform", d => {
+                    // Keep nodes within container bounds
+                    d.x = Math.max(d.size + 10, Math.min(width - (d.size + 10), d.x));
+                    d.y = Math.max(d.size + 10, Math.min(height - (d.size + 10), d.y));
+                    return `translate(${d.x},${d.y})`;
+                });
+            });
+
+            // Core Update Function (called on init and when clicking nodes)
+            function update() {
+                const nodes = root.descendants();
+                const links = root.links();
+
+                // 1. Update Links
+                link = link.data(links, d => d.source.id + "-" + d.target.id);
+                link.exit().remove();
+                const linkEnter = link.enter().append("line")
+                    .attr("stroke", "#cbd5e1")
+                    .attr("stroke-width", 2);
+                link = linkEnter.merge(link);
+
+                // 2. Update Nodes
+                node = node.data(nodes, d => d.id);
+                node.exit().remove();
+
+                const nodeEnter = node.enter().append("g")
+                    .attr("class", "node")
+                    .call(d3.drag()
+                        .on("start", dragstarted)
+                        .on("drag", dragged)
+                        .on("end", dragended))
+                    .on("click", click)
+                    .on("mouseover", showTooltip)
+                    .on("mouseout", hideTooltip);
+
+                nodeEnter.append("circle")
+                    .attr("r", d => d.size)
+                    .attr("fill", d => colors[d.group].node)
+                    .style("cursor", "pointer")
+                    .style("box-shadow", "0 4px 6px rgba(0,0,0,0.1)");
+
+                nodeEnter.append("text")
+                    .attr("text-anchor", "middle")
+                    .attr("dy", "0.3em")
+                    .attr("fill", d => colors[d.group].text)
+                    .style("font-size", d => d.size >= 40 ? "16px" : d.size >= 30 ? "13px" : "11px")
+                    .style("font-weight", "800")
+                    .style("pointer-events", "none")
+                    .text(d => d.label);
+
+                node = nodeEnter.merge(node);
+
+                // Add visual cue for expandable nodes (Dashed border)
+                node.select("circle")
+                    .attr("stroke", "#ffffff")
+                    .attr("stroke-width", d => d._children ? 4 : 3)
+                    .attr("stroke-dasharray", d => d._children ? "5,5" : "none"); // Dashed if expandable
+
+                // Update Simulation
+                simulation.nodes(nodes);
+                simulation.force("link").links(links);
+                simulation.alpha(1).restart();
+            }
+
+            // Click to expand/collapse
+            function click(event, d) {
+                if (event.defaultPrevented) return; // Prevent triggering click on drag
+
+                if (d.children) {
+                    // Collapse
+                    d._children = d.children;
+                    d.children = null;
+                } else if (d._children) {
+                    // Expand
+                    d.children = d._children;
+                    d._children = null;
+                    // Spawn children at parent's current position for smooth animation
+                    d.children.forEach(child => {
+                        child.x = d.x;
+                        child.y = d.y;
+                    });
+                } else {
+                    return; // No children to toggle
+                }
+                update();
+            }
+
+            // Drag Functions
+            function dragstarted(event, d) {
+                if (!event.active) simulation.alphaTarget(0.3).restart();
+                d.fx = d.x;
+                d.fy = d.y;
+                d3.select(this).select("circle").style("cursor", "grabbing");
+                hideTooltip(event, d);
+            }
+
+            function dragged(event, d) {
+                d.fx = event.x;
+                d.fy = event.y;
+            }
+
+            function dragended(event, d) {
+                if (!event.active) simulation.alphaTarget(0);
+                d.fx = null;
+                d.fy = null;
+                d3.select(this).select("circle").style("cursor", "pointer");
+            }
+
+            // Tooltips
+            function showTooltip(event, d) {
+                d3.select(this).select("circle").attr("stroke", "#0f172a");
+                const [x, y] = d3.pointer(event, containerEl);
+                tooltip.transition().duration(200).style("opacity", 1);
+                tooltip.html(`
+                    <div class="font-extrabold text-slate-800 text-lg mb-1">${d.label}</div>
+                    <div class="text-slate-600 text-sm leading-snug">${d.desc}</div>
+                `)
+                    .style("left", (x + 20) + "px")
+                    .style("top", (y - 30) + "px");
+            }
+
+            function hideTooltip(event, d) {
+                d3.select(this).select("circle").attr("stroke", "#ffffff");
+                tooltip.transition().duration(500).style("opacity", 0);
+            }
+
+            // Handle Resize
+            window.addEventListener('resize', () => {
+                const newWidth = container.clientWidth;
+                const newHeight = container.clientHeight;
+                svg.attr("viewBox", `0 0 ${newWidth} ${newHeight}`);
+                simulation.force("center", d3.forceCenter(newWidth / 2, newHeight / 2));
+                simulation.alpha(0.3).restart();
+            });
+
+            // Initial render
+            update();
+        }
+    </script>
+</body>
+
+</html>
